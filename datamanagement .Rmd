@@ -1,0 +1,33 @@
+---
+title: "Data Management Project"
+author: 
+date: "February 12, 2015"
+output: html_document
+---
+The three variables that are being examined are "VideoGames", "Overweight", and "Exercise". These variables correspond with H1DA3, H1TS4 and H1DA6 from the Add Health Data Set. The first variable is represented in the first graph. This shows the responses when the chohort was asked "During the past week how many times did you watch television or videos, or play video games?". The majority of the cohort responded saying they did this 5 or more times. The second variable and graph shows the responses when the cohort was asked if they were taught the problems associated with being overweight in school. The majority responded that they had, but an alarming number responded that they had not. The last variable and graph shows the responses when the cohort was asked "During the past week, how many times did you do exercise, such as jogging, walking, karate, jumping rope, gymnastics, or dancing?" The majority of the cohort responded that they participated in these types of activities 1 or 2 times per week. 
+```{r comment = NA}
+library (PDS)
+library (dplyr)
+NDF <- AddHealth %>%
+  rename(VideoGames = H1DA3, Overweight = H1TS4, Exercise = H1DA6) %>%
+  select(VideoGames, Overweight, Exercise)
+head(NDF)
+str(NDF)
+NDF$VideoGames <- factor(NDF$VideoGames,labels=c("not at all","1 or 2 times", "3 or 4 times", "5 or more", "refused", "don't know"))
+NDF$Overweight <- factor(NDF$Overweight,labels=c("no", "yes", "refused", "don't know"))
+NDF$Exercise <- factor(NDF$Exercise,labels=c ("not at all", "1 or 2 times", "3 or 4 times", "5 or more times", "refused", "don't know"))
+
+str(NDF)
+# Barplots
+library(ggplot2)
+g1 <- ggplot(data = NDF, aes(x=VideoGames)) + geom_bar(fill = "green")
+g1 
+g2 <- ggplot(data= NDF, aes(x=Overweight)) + geom_bar(fill = "purple")
+g2
+g3 <- ggplot(data= NDF, aes(x=Exercise)) +geom_bar(fill = "blue")
+g3
+
+
+
+```{r}
+
